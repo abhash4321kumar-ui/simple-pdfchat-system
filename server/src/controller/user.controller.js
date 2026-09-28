@@ -130,7 +130,11 @@ async function loginfnc(req, res, next) {
             expiresIn: '1d'
         })
 
-        res.cookie('token', token, { httpOnly: true, secure: false })
+        res.cookie('token', token, {
+            httpOnly: true,
+            secure: true,
+            sameSite: 'none'
+        });
 
         res.status(201).json({
             message: 'user loggedIn succesfully!',
@@ -226,7 +230,12 @@ async function googleLoginfnc(req, res, next) {
 
         let token = jwt.sign({ _id: checkuser._id }, process.env.JWT_KEY, { expiresIn: '1d' });
 
-        res.cookie('token', token, { httpOnly: true, secure: false });
+        res.cookie('token', token, {
+            httpOnly: true,
+            secure: true,
+            sameSite: 'none'
+        });
+
         res.status(200).json({ message: 'Google Login successful!', checkuser });
     } catch (error) {
         next(error);

@@ -87,7 +87,7 @@ async function chatwithpdf(req, res, next) {
         const retriever = vectorStore.asRetriever({ k: 3, filter: { type: "document", userId: userId.toString() } });
 
         const systemmessage = ChatPromptTemplate.fromTemplate(`
-            Tum ek helpful AI assistant ho. Context ke ANDAR se hi jawab do.
+            Tum ek helpful AI assistant ho. Context ke ANDAR se hi jawab do. Or jabab us language me dena jis langauge me user baat kar raha ho.
             Context: {context}
             Sawaal: {input}
             Jawab:

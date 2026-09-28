@@ -1,0 +1,73 @@
+🗺️ The "DocuMind AI" Product Roadmap (Step-by-Step)
+Har phase me maine bataya hai ki kya [Outsourced] hai aur kya [In-House] (Tumhe code karna hai).
+
+Phase 1: Brain Dump (Mini SRS) & Architecture
+Product banne se pehle pata hona chahiye ban kya raha hai.
+
+Mini SRS (MVP Features):
+User Google ya Email se login kar sake.
+User PDF upload kar sake (Max 5MB).
+AI us PDF ko padh kar user ke sawalon ka jawab de.
+Free user sirf 5 sawal/minute aur total 20 sawal puch sake (Rate Limiting/Credits).
+Database Design (MongoDB):
+Ek product me DB design bohot zaroori hai. Yahan 2 Collections banengi:
+Users: { clerkUserId, email, creditsLeft: 20 } (Clerk Auth handle karega, par hume credits track karne ke liye DB me user chahiye).
+Documents: { userId, fileName, fileUrl, vectorNamespace, createdAt }.
+Architecture Flow:
+
+
+React (UI) ➡️ Request ➡️ Express (Check limit & Auth) ➡️ Langchain/Pinecone (AI) ➡️ Express ➡️ React (Answer).
+
+
+Phase 2: UI & Frontend Setup (Speed Run) ⚡
+Status: [Partially Outsourced via Component Libraries]
+
+Kya karna hai: React (Vite) setup karo. Figma ki jagah Shadcn UI ya Tailwind UI ka use karo.
+Nayi Cheez kya seekhni hai: Shadcn UI. Ye koi library nahi jise npm install karna pade. Tum inki website se sundar Buttons, Cards, aur Modals ka code direct copy karke apne project me paste karte ho. (Product professional dikhta hai).
+Task: Ek Landing Page banao, aur ek Dashboard banao (jahan upload button aur chat screen ho).
+
+
+Phase 3: The "Plug & Play" Authentication 🔒
+Status: [100% Outsourced]
+
+Kya karna hai: Apne React app me Clerk integrate karo.
+Nayi Cheez kya seekhni hai: Clerk Dashboard me account banana aur unke React components (<SignedIn>, <SignedOut>, <UserButton>) ko use karke routes protect karna.
+Express Security: Clerk tumhe batayega ki backend Express me ek chota sa middleware kaise lagayein jo check kare ki request ek asli logged-in user se aa rahi hai ya nahi.
+
+
+Phase 4: Core Engine (File Upload & Backend) ⚙️
+Status: [In-House - Tumhara apna MERN magic]
+
+Kya karna hai: Express server set karo. Multer se PDF accept karo.
+Nayi Cheez kya seekhni hai: Cloudinary ya AWS S3 par file save karna. (PDF server ki hard drive me save nahi karte product me, cloud bucket me karte hain).
+Flow: User ne PDF di ➡️ Express ne li ➡️ Cloudinary pe daali ➡️ Uska link MongoDB me save kar diya.
+
+
+Phase 5: The "AI Brain" (Langchain + Pinecone) 🧠
+Status: [In-House + External AI SaaS]
+
+Kya karna hai: Jo PDF Cloudinary pe gayi, usko Langchain se download karke text nikalo. Text ko chunks me todo, aur Pinecone (Vector DB) me save karo.
+Nayi Cheez kya seekhni hai: Vector DB kaise kaam karta hai. AI API keys (Groq/OpenAI) ko Express me securely use karna taaki PDF ke text se chat ho sake.
+
+
+Phase 6: Product Security & Rate Limiting (Business Logic) 🛡️
+Status: [In-House]
+
+Kya karna hai: Backend ko abuse hone se bachana.
+Rate Limiting: express-rate-limit package use karke rule set karna: max: 5, windowMs: 1 * 60 * 1000 (1 min me 5 request). Agar 6th aayi, toh "Rate limit exceeded" error dena.
+Credit System: Jab bhi user Express API se AI answer le, MongoDB me User.creditsLeft -= 1 kar do. Agar credits 0 ho jayein, toh API block kar do aur bolo "Upgrade to Pro".
+
+
+Phase 7: Deployment & The "Product Hunt" Launch 🚀
+Status: [100% Outsourced DevOps]
+
+Kya karna hai: App ko duniya ke samne live karna.
+Deployment:
+Frontend (React): GitHub se connect karke Vercel par deploy (Sirf 3 clicks lagte hain).
+Backend (Express): GitHub se connect karke Render.com par deploy.
+Nayi Cheez: Environment variables (.env) ko in platforms ke dashboard me add karna.
+Launch: Product Hunt par apna product list karna. Iske liye ek achhi tagline ("Chat with any PDF instantly"), logo, aur 2-3 screenshots chahiye hote hain. Product Hunt ki audience starting ke 100-200 free users laane ke liye best hai.
+
+
+
+Bonus Task: Add streaming feature using socket.io after getting ans from ai.

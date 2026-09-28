@@ -1,11 +1,5 @@
 import api from './axiosInstance';
 
-/**
- * API LAYER
- * Pure network calls only — no state, no try/catch, no UI logic.
- * The hook layer is responsible for handling loading/error/success.
- */
-
 export const Signupfnc = async (formData) => {
     return await api.post('/api/signup', {
         username: formData.username,

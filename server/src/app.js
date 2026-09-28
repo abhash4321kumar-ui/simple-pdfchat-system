@@ -9,7 +9,7 @@ const uploadrouter = require('./routes/upload.route');
 app.use(express.json());
 app.use(cookieparser());
 app.use(cors({
-    origin:'http://localhost:5173',
+    origin:process.env.CLIENT_SIDE_URL,
     credentials: true
 }))
 

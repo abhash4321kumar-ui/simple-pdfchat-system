@@ -79,9 +79,9 @@ async function verifyfnc(req, res, next) {
         </div>
         <h1 style="font-family: Georgia, serif; font-size:22px; color:#16233A; margin:0 0 8px 0;">Account verified</h1>
         <p style="font-family: Arial, sans-serif; font-size:14px; color:rgba(22,35,58,0.6); line-height:1.6; margin:0 0 28px 0;">
-            Your email has been successfully verified. You can now sign in and start using Inkwell.
+            Your email has been successfully verified. You can now sign in and start using <span style="text-transform: capitalize">documind-ai</span>.
         </p>
-        <a href="http://localhost:5173/login"
+        <a href="${process.env.CLIENT_SIDE_URL}/login"
            style="display:inline-block; text-decoration:none; background-color:#16233A; color:#F6F4EE; font-family: Arial, sans-serif; font-size:14px; font-weight:bold; padding:12px 28px; border-radius:8px;">
             Sign in
         </a>

@@ -283,7 +283,7 @@ const Home = () => {
                                 Start turning your documents into momentum today.
                             </p>
                             <MagneticButton
-                                onClick={() => navigate('/login')}
+                                onClick={() => navigate('/signup')}
                                 className="bg-[#16233A] hover:bg-[#0F1826] shadow-2xl"
                             >
                                 Get started for free <ArrowRight size={16} />

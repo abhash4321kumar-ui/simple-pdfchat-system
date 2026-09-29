@@ -1,25 +1,39 @@
 import { useState } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import { motion } from 'framer-motion';
-import { Mail, Lock, LogIn } from 'lucide-react';
+import { Mail, Lock, User, UserPlus } from 'lucide-react';
 import { useAuth } from '../hooks/useAuth';
 import MagneticButton from '../components/MagneticButton';
 
-const Login = () => {
-    const [email, setEmail] = useState('');
-    const [password, setPassword] = useState('');
+const Signup = () => {
+    const [formData, setFormData] = useState({ username: '', email: '', password: '' });
+    const [message, setMessage] = useState('');
     const navigate = useNavigate();
-    const { login, googleAuth, authError, authLoading } = useAuth();
+    const { signup, googleAuth, authError, authLoading } = useAuth();
 
-    const handleLogin = async (e) => {
-        e.preventDefault();
-        const result = await login(email, password);
-        if (result.success) navigate('/dashboard');
+    const handleChange = (e) => {
+        setFormData({ ...formData, [e.target.name]: e.target.value });
     };
 
-    const handleGoogleLogin = async () => {
-        const result = await googleAuth('login');
-        if (result.success) navigate('/dashboard');
+    const handleSignup = async (e) => {
+        e.preventDefault();
+        const result = await signup(formData);
+        if (result.success) {
+            setMessage(result.message);
+            setTimeout(() => {
+                navigate('/dashboard');
+            }, 1500);
+        }
+    };
+
+    const handleGoogleSignup = async () => {
+        const result = await googleAuth('signup');
+        if (result.success) {
+            setMessage(result.message);
+            setTimeout(() => {
+                navigate('/dashboard');
+            }, 1500);
+        }
     };
 
     return (
@@ -57,15 +71,15 @@ const Login = () => {
                         transition={{ delay: 0.2 }}
                         className="font-serif text-4xl text-[#16233A] mt-5 mb-2"
                     >
-                        Welcome back
+                        Create an account
                     </motion.h1>
                     <motion.p
                         initial={{ y: 10, opacity: 0 }}
                         animate={{ y: 0, opacity: 1 }}
                         transition={{ delay: 0.3 }}
-                        className="text-sm text-[#16233A]/60 first-letter:uppercase"
+                        className="text-sm text-[#16233A]/60"
                     >
-                        login to pick up where you left off
+                        Join us to upload and chat with your PDFs
                     </motion.p>
                 </div>
 
@@ -75,7 +89,23 @@ const Login = () => {
                     transition={{ delay: 0.4 }}
                     className="bg-white/80 backdrop-blur-xl rounded-3xl border border-[#16233A]/10 shadow-2xl p-8"
                 >
-                    <form onSubmit={handleLogin} className="flex flex-col gap-5">
+                    <form onSubmit={handleSignup} className="flex flex-col gap-5">
+                        <div>
+                            <label className="block text-xs font-semibold text-[#16233A]/70 mb-2 flex items-center gap-2">
+                                <User size={14} />
+                                Username
+                            </label>
+                            <input
+                                type="text"
+                                name="username"
+                                required
+                                value={formData.username}
+                                onChange={handleChange}
+                                placeholder="johndoe"
+                                className="w-full px-4 py-3 rounded-xl border-2 border-[#16233A]/15 text-sm text-[#16233A] placeholder:text-[#16233A]/30 focus:outline-none focus:border-[#F2A93B] focus:ring-4 focus:ring-[#F2A93B]/20 transition-all"
+                            />
+                        </div>
+
                         <div>
                             <label className="block text-xs font-semibold text-[#16233A]/70 mb-2 flex items-center gap-2">
                                 <Mail size={14} />
@@ -83,9 +113,10 @@ const Login = () => {
                             </label>
                             <input
                                 type="email"
+                                name="email"
                                 required
-                                value={email}
-                                onChange={(e) => setEmail(e.target.value)}
+                                value={formData.email}
+                                onChange={handleChange}
                                 placeholder="you@example.com"
                                 className="w-full px-4 py-3 rounded-xl border-2 border-[#16233A]/15 text-sm text-[#16233A] placeholder:text-[#16233A]/30 focus:outline-none focus:border-[#F2A93B] focus:ring-4 focus:ring-[#F2A93B]/20 transition-all"
                             />
@@ -98,9 +129,10 @@ const Login = () => {
                             </label>
                             <input
                                 type="password"
+                                name="password"
                                 required
-                                value={password}
-                                onChange={(e) => setPassword(e.target.value)}
+                                value={formData.password}
+                                onChange={handleChange}
                                 placeholder="••••••••"
                                 className="w-full px-4 py-3 rounded-xl border-2 border-[#16233A]/15 text-sm text-[#16233A] placeholder:text-[#16233A]/30 focus:outline-none focus:border-[#F2A93B] focus:ring-4 focus:ring-[#F2A93B]/20 transition-all"
                             />
@@ -110,19 +142,29 @@ const Login = () => {
                             <motion.p
                                 initial={{ opacity: 0, height: 0 }}
                                 animate={{ opacity: 1, height: 'auto' }}
-                                className="text-sm text-red-600"
+                                className="text-sm capitalize text-red-600"
                             >
                                 {authError}
                             </motion.p>
                         )}
 
+                        {message && (
+                            <motion.p
+                                initial={{ opacity: 0, height: 0 }}
+                                animate={{ opacity: 1, height: 'auto' }}
+                                className="text-sm capitalize text-green-700"
+                            >
+                                {message}
+                            </motion.p>
+                        )}
+
                         <MagneticButton
-                            onClick={handleLogin}
+                            type="submit"
                             disabled={authLoading}
                             className="w-full justify-center mt-2"
                         >
-                            <LogIn size={16} />
-                            {authLoading ? 'Please wait to login…' : 'Login'}
+                            <UserPlus size={16} />
+                            {authLoading ? 'Creating account…' : 'Sign up'}
                         </MagneticButton>
                     </form>
 
@@ -133,7 +175,7 @@ const Login = () => {
                     </div>
 
                     <motion.button
-                        onClick={handleGoogleLogin}
+                        onClick={handleGoogleSignup}
                         disabled={authLoading}
                         whileHover={{ scale: 1.02 }}
                         whileTap={{ scale: 0.98 }}
@@ -149,12 +191,12 @@ const Login = () => {
                     transition={{ delay: 0.6 }}
                     className="text-center text-sm text-[#16233A]/60 mt-8"
                 >
-                    Don't have an account?{' '}
+                    Already have an account?{' '}
                     <Link
-                        to="/dashboard"
-                        className="text-[#16233A] font-semibold hover:text-[#F2A93B] transition-colors underline underline-offset-2"
+                        to="/login"
+                        className="text-[#16233A] font-semibold hover:text-[#F2A93B] transition-colors underline underline-offset-2 capitalize"
                     >
-                        Get started from the dashboard
+                        login
                     </Link>
                 </motion.p>
             </motion.div>
@@ -162,5 +204,4 @@ const Login = () => {
     );
 };
 
-
-export default Login;
+export default Signup

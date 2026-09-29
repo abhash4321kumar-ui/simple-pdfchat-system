@@ -12,6 +12,8 @@ const transporter = nodemailer.createTransport({
 });
 
 
+console.log(process.env.SERVER_SIDE_URL)
+
 async function Sendemailfnc(username, email) {
 
     console.log('running sendmail fnc!')
@@ -29,14 +31,14 @@ async function Sendemailfnc(username, email) {
             html: ` <div style="background-color:#F6F4EE; padding:40px 20px; font-family: Georgia, 'Times New Roman', serif;">
         <div style="max-width:480px; margin:0 auto; background:#ffffff; border-radius:16px; border:1px solid rgba(22,35,58,0.1); overflow:hidden;">
             <div style="padding:32px 32px 0 32px; text-align:center;">
-                <span style="font-family: Georgia, serif; font-size:20px; color:#16233A;">Inkwell</span>
+                <span style="font-family: Georgia, serif; font-size:20px; color:#16233A; text-transform: capitalize;documind-ai</span>
             </div>
             <div style="padding:24px 32px 32px 32px; text-align:center;">
                 <h1 style="font-family: Georgia, serif; font-size:24px; color:#16233A; margin:0 0 8px 0;">Welcome, ${username}!</h1>
                 <p style="font-family: Arial, sans-serif; font-size:14px; color:rgba(22,35,58,0.6); line-height:1.6; margin:0 0 28px 0;">
                     Thanks for signing up. Please verify your email to start chatting with your PDFs.
                 </p>
-                <a href="http://localhost:8080/api/verify?token=${emailtoken}"
+                <a href="${process.env.SERVER_SIDE_URL}/api/verify?token=${emailtoken}"
                    style="display:inline-block; text-decoration:none; background-color:#16233A; color:#F6F4EE; font-family: Arial, sans-serif; font-size:14px; font-weight:bold; padding:12px 28px; border-radius:8px;">
                     Verify Email
                 </a>
@@ -73,14 +75,14 @@ async function Googleemailfnc(username, email) {
             html: ` <div style="background-color:#F6F4EE; padding:40px 20px; font-family: Georgia, 'Times New Roman', serif;">
         <div style="max-width:480px; margin:0 auto; background:#ffffff; border-radius:16px; border:1px solid rgba(22,35,58,0.1); overflow:hidden;">
             <div style="padding:32px 32px 0 32px; text-align:center;">
-                <span style="font-family: Georgia, serif; font-size:20px; color:#16233A;">Inkwell</span>
+                <span style="font-family: Georgia, serif; font-size:20px; color:#16233A; text-transform: capitalize;">documind-ai</span>
             </div>
             <div style="padding:24px 32px 32px 32px; text-align:center;">
                 <h1 style="font-family: Georgia, serif; font-size:24px; color:#16233A; margin:0 0 8px 0;">Welcome, ${username}!</h1>
                 <p style="font-family: Arial, sans-serif; font-size:14px; color:rgba(22,35,58,0.6); line-height:1.6; margin:0 0 28px 0;">
                     You signed up with Google. Just one more step — verify your email to continue.
                 </p>
-                <a href="http://localhost:8080/api/verify?token=${emailtoken}"
+                <a href="${process.env.SERVER_SIDE_URL}/api/verify?token=${emailtoken}"
                    style="display:inline-block; text-decoration:none; background-color:#16233A; color:#F6F4EE; font-family: Arial, sans-serif; font-size:14px; font-weight:bold; padding:12px 28px; border-radius:8px;">
                     Verify Email
                 </a>

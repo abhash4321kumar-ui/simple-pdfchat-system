@@ -1,25 +1,33 @@
 import { Routes, Route, Link, useLocation } from 'react-router-dom';
 import { motion, AnimatePresence } from 'framer-motion';
 import { LogOut, Menu, X } from 'lucide-react';
-import { useState } from 'react';
+import { useContext, useState } from 'react';
 import Home from './pages/Home';
 import Dashboard from './pages/Dashboard';
 import Login from './pages/Login';
+import Signup from './pages/Signup';
 import { Logoutfnc } from './apis/user.api';
+import { useAuthContext } from './context/AuthContext';
 
 function App() {
+
+    let { isAuth, setIsAuth } = useAuthContext()
+
+
     const [logoutmessage, setlogoutmessage] = useState('');
     const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
     const location = useLocation();
 
     const navLinkClass = (path) =>
-        `text-sm font-medium transition-all capitalize relative group ${
-            location.pathname === path
-                ? 'text-[#16233A]'
-                : 'text-[#16233A]/55 hover:text-[#16233A]'
+        `text-sm font-medium transition-all capitalize relative group ${location.pathname === path
+            ? 'text-[#16233A]'
+            : 'text-[#16233A]/55 hover:text-[#16233A]'
         }`;
 
     const handleLogout = () => {
+        if (!isAuth) {
+            return
+        }
         Logoutfnc();
         setTimeout(() => {
             setlogoutmessage('User logged out successfully!');
@@ -47,6 +55,7 @@ function App() {
                             {[
                                 { path: '/', label: 'home' },
                                 { path: '/dashboard', label: 'dashboard' },
+                                { path: '/signup', label: 'signup' },
                                 { path: '/login', label: 'login' },
                             ].map(({ path, label }) => (
                                 <Link key={path} to={path} className={navLinkClass(path)}>
@@ -95,6 +104,7 @@ function App() {
                                 {[
                                     { path: '/', label: 'home' },
                                     { path: '/dashboard', label: 'dashboard' },
+                                    { path: '/signup', label: 'signup' },
                                     { path: '/login', label: 'login' },
                                 ].map(({ path, label }) => (
                                     <Link
@@ -146,6 +156,19 @@ function App() {
                                 transition={{ duration: 0.3 }}
                             >
                                 <Dashboard />
+                            </motion.div>
+                        }
+                    />
+                    <Route
+                        path="/signup"
+                        element={
+                            <motion.div
+                                initial={{ opacity: 0 }}
+                                animate={{ opacity: 1 }}
+                                exit={{ opacity: 0 }}
+                                transition={{ duration: 0.3 }}
+                            >
+                                <Signup />
                             </motion.div>
                         }
                     />

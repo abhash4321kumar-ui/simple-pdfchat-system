@@ -6,6 +6,7 @@ export const AuthProvider = ({ children }) => {
     const [user, setUser] = useState(null);
     const [isAuth, setIsAuth] = useState(false);
     const [isUploaded, setIsUploaded] = useState(false);
+    
 
     const value = {
         user, setUser,

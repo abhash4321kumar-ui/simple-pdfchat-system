@@ -4,6 +4,8 @@ let databasefnc = require('./src/config/databasefnc')
 
 databasefnc();
 
-app.listen(8080, function(){
+let PORT = process.env.PORT || 8080
+
+app.listen(PORT, function () {
     console.log('server is running!')
 })

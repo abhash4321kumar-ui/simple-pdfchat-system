@@ -1,37 +1,32 @@
 let nodemailer = require('nodemailer');
 let path = require('path');
 let fs = require('fs');
-let jwt = require('jsonwebtoken')
+let jwt = require('jsonwebtoken');
 
 const transporter = nodemailer.createTransport({
-    service: 'gmail',
+    host: process.env.SMTP_SERVER,
+    port: process.env.SMTP_PORT,
+    secure: false, 
     auth: {
-        user: process.env.ADMIN_EMAIL,
-        pass: process.env.NEW_EMAIL_PASSWORD
+        user: process.env.SMTP_LOGIN,
+        pass: process.env.SMTP_PASSWORD
     }
 });
 
 
-console.log(process.env.SERVER_SIDE_URL)
-
 async function Sendemailfnc(username, email) {
-
     console.log('running sendmail fnc!')
-
     try {
-
-        let emailtoken = jwt.sign({
-            email: email
-        }, process.env.JWT_KEY)
+        let emailtoken = jwt.sign({ email: email }, process.env.JWT_KEY);
 
         const mailOptions = {
-            from: process.env.ADMIN_EMAIL,
+            from: `"DocuMind AI" <${process.env.ADMIN_EMAIL}>`, // Sender ka naam acha dikhega
             to: email,
-            subject: 'Thanks for Signup!',
+            subject: 'Thanks for Signup! Verify your email',
             html: ` <div style="background-color:#F6F4EE; padding:40px 20px; font-family: Georgia, 'Times New Roman', serif;">
         <div style="max-width:480px; margin:0 auto; background:#ffffff; border-radius:16px; border:1px solid rgba(22,35,58,0.1); overflow:hidden;">
             <div style="padding:32px 32px 0 32px; text-align:center;">
-                <span style="font-family: Georgia, serif; font-size:20px; color:#16233A; text-transform: capitalize;documind-ai</span>
+                <span style="font-family: Georgia, serif; font-size:20px; color:#16233A; text-transform: capitalize;">documind-ai</span>
             </div>
             <div style="padding:24px 32px 32px 32px; text-align:center;">
                 <h1 style="font-family: Georgia, serif; font-size:24px; color:#16233A; margin:0 0 8px 0;">Welcome, ${username}!</h1>
@@ -51,27 +46,22 @@ async function Sendemailfnc(username, email) {
         };
 
         await transporter.sendMail(mailOptions);
-
         console.log('mail send succesfully!')
 
     } catch (error) {
-        console.log(error)
+        console.log("Email Send Error: ", error)
     }
 }
 
 async function Googleemailfnc(username, email) {
     try {
-
         console.log('running google signup!')
-
-        let emailtoken = jwt.sign({
-            email: email
-        }, process.env.JWT_KEY)
+        let emailtoken = jwt.sign({ email: email }, process.env.JWT_KEY);
 
         await transporter.sendMail({
-            from: process.env.ADMIN_EMAIL,
+            from: `"DocuMind AI" <${process.env.ADMIN_EMAIL}>`,
             to: email,
-            subject: 'Thanks for Google Signup!',
+            subject: 'Welcome to DocuMind AI (Google Signup)',
             html: ` <div style="background-color:#F6F4EE; padding:40px 20px; font-family: Georgia, 'Times New Roman', serif;">
         <div style="max-width:480px; margin:0 auto; background:#ffffff; border-radius:16px; border:1px solid rgba(22,35,58,0.1); overflow:hidden;">
             <div style="padding:32px 32px 0 32px; text-align:center;">
@@ -97,7 +87,7 @@ async function Googleemailfnc(username, email) {
         console.log('mail transported succesfully!')
 
     } catch (error) {
-        console.log(error)
+        console.log("Google Email Send Error: ", error)
     }
 }
 

@@ -6,6 +6,8 @@ import Home from './pages/Home';
 import Dashboard from './pages/Dashboard';
 import Login from './pages/Login';
 import Signup from './pages/Signup';
+import PrivacyPolicy from './pages/PrivacyPolicy';
+import Terms from './pages/Terms';
 import { Logoutfnc } from './apis/user.api';
 import { useAuthContext } from './context/AuthContext';
 
@@ -185,8 +187,43 @@ function App() {
                             </motion.div>
                         }
                     />
+                    <Route
+                        path="/terms"
+                        element={
+                            <motion.div
+                                initial={{ opacity: 0 }}
+                                animate={{ opacity: 1 }}
+                                exit={{ opacity: 0 }}
+                                transition={{ duration: 0.3 }}
+                            >
+                                <Terms />
+                            </motion.div>
+                        }
+                    />
+                    <Route
+                        path="/privacy"
+                        element={
+                            <motion.div
+                                initial={{ opacity: 0 }}
+                                animate={{ opacity: 1 }}
+                                exit={{ opacity: 0 }}
+                                transition={{ duration: 0.3 }}
+                            >
+                                <PrivacyPolicy />
+                            </motion.div>
+                        }
+                    />
                 </Routes>
             </AnimatePresence>
+
+            <footer className="mt-20 py-8 border-t border-gray-200 text-center text-sm text-gray-500">
+                <div className="flex justify-center gap-6 mb-4">
+                    <Link to="/privacy" className="hover:text-[#F2A93B] transition-colors">Privacy Policy</Link>
+                    <Link to="/terms" className="hover:text-[#F2A93B] transition-colors">Terms of Service</Link>
+                </div>
+                <p>© {new Date().getFullYear()} DocuMind AI. All rights reserved.</p>
+                <p className="mt-2 text-xs">Built for productivity. Do not upload classified or highly sensitive data.</p>
+            </footer>
         </div>
     );
 }

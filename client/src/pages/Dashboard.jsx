@@ -66,7 +66,7 @@ const Dashboard = () => {
     }
 
     return (
-        <div className="min-h-screen bg-[#F6F4EE] px-6 py-10 relative overflow-hidden">
+        <div className="min-h-screen bg-[#F6F4EE] px-6 py-5 relative overflow-hidden">
             {/* Animated background particles */}
             <motion.div
                 animate={{
@@ -81,7 +81,7 @@ const Dashboard = () => {
                 <motion.div
                     initial={{ y: -20, opacity: 0 }}
                     animate={{ y: 0, opacity: 1 }}
-                    className="flex items-center justify-end mb-8"
+                    className="flex items-center justify-end mb-5"
                 >
                     <motion.div
                         whileHover={{ scale: 1.05 }}
@@ -166,7 +166,7 @@ const Dashboard = () => {
                             initial={{ opacity: 0, scale: 0.95 }}
                             animate={{ opacity: 1, scale: 1 }}
                             exit={{ opacity: 0, scale: 0.95 }}
-                            className="bg-white border border-[#16233A]/10 rounded-3xl shadow-2xl flex flex-col h-[700px] overflow-hidden"
+                            className="bg-white border border-[#16233A]/10 rounded-3xl shadow-2xl flex flex-col h-[500px] overflow-hidden"
                         >
                             <motion.div
                                 initial={{ y: -20, opacity: 0 }}

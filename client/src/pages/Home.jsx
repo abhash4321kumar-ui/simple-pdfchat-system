@@ -79,7 +79,7 @@ const Home = () => {
                                 className="inline-flex items-center gap-2 text-xs font-bold uppercase tracking-[0.2em] text-[#B9862C]"
                             >
                                 <span className="h-px w-10 bg-[#B9862C]" />
-                                PDF Q&A, without the skimming
+                                PDF Q&A that gives you back your reading time
                             </motion.div>
 
                             <h1 className="font-serif text-6xl md:text-7xl lg:text-8xl leading-[0.95] tracking-tight">
@@ -97,8 +97,8 @@ const Home = () => {
                             </h1>
 
                             <p className="text-lg md:text-xl text-[#16233A]/70 max-w-xl leading-relaxed">
-                                Upload any PDF and ask it questions directly. No more scrolling through
-                                fifty pages to find one paragraph.
+                                Upload any PDF and ask it questions directly. Get the answer you
+                                need in seconds, so your time goes into understanding—not searching.
                             </p>
 
                             <div className="flex flex-wrap whitespace-nowrap items-center gap-5 pt-4">
